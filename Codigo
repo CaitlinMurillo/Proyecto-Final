@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <utility>
+using namespace std;
+
+class Juego{
+public:
+
+
+class Serpiente {
+private:
+    vector<pair<int, int>> cuerpo; // En este vector guardamos las posiciones (x, y) del cuerpo de la serpiente
+    int longitud; // Longitud que tiene la serpiente
+    char direccion; // Dirección actual de la serpiente ('W' = arriba, 'S' = abajo, 'A' = izquierda, 'D' = derecha)
+
+public:// Constructor para darle una posicion de inicio a la serpiente.
+    Serpiente(int InicioX, int InicioY, char dirInicial)
+        : longitud(1), direccion(dirInicial) {
+        cuerpo.push_back((InicioX, InicioY));
+    }
+//Método para obtener la longitud actual de la serpiente.
+    int obtenerLongitud() const {
+        return longitud;
+    }
+//con este metodo cambiamos la direccion de la serpiente
+    void cambiarDireccion(char nuevaDireccion) {
+        direccion = nuevaDireccion;
+    }
+//con este metodo ejecutamos la nueva direccion de la serpiente que ocurre en el anterior
+    void mover() {
+        //Esta es la posicion de donde apunta la cabeza de la serpiente
+        cabeza = cuerpo.front();
+
+        // se mueve la serpiente dependiendo la direccion en la que esta actualmente 
+        switch (direccion) {
+            case 'W': cabeza.second--; break;
+            case 'S': cabeza.second++; break;
+            case 'A': cabeza.first--; break;
+            case 'D': cabeza.first++; break;
+        }
+
+        // Agregar la nueva cabeza al principio del cuerpo de la serpiente
+        cuerpo.insert(cuerpo.begin(), cabeza);
+
+        // Si la serpiente no ha comido, eliminar la última posición para mantener la longitud
+        if (cuerpo.size() > longitud) {
+            cuerpo.pop_back();
+        }
+    }
+// con este Método representamos que la serpiente ha comido y crece su tamaño
+
+    void crecer() {
+        longitud++;
+    }
+};
+class Comida{
+private:
+     string alimento;
+//Constructor
+     Comida(string manzana) : alimento(manzana)
+void mostrarInfromacion()
+{
+     cout << "Tienes que comer manzanas para crecer" << manzana endl;
+}
+}
+class Menu : public juego
+{}
+class Iniciar : public Menu
+{}
+class Ajustes : public Menu
+{}
+class Nuevapartida : public Menu
