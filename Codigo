@@ -29,7 +29,7 @@ public:// Constructor para darle una posicion de inicio a la serpiente.
 //con este metodo ejecutamos la nueva direccion de la serpiente que ocurre en el anterior
     void mover() {
         //Esta es la posicion de donde apunta la cabeza de la serpiente
-        cabeza = cuerpo.front();
+        cabeza = cuerpo.front(); // ! FALTA CREAR FUNCION
 
         // se mueve la serpiente dependiendo la direccion en la que esta actualmente 
         switch (direccion) {
@@ -62,6 +62,9 @@ void mostrarInfromacion()
 {
      cout << "Tienes que comer manzanas para crecer" << manzana endl;
 }
+
+// Implemntacion de herencia
+
 }
 class Menu : public juego
 {}
