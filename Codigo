@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <utility>
+#include "Windows.h"
+#inlcude <conio.h>
 using namespace std;
 
 class Juego{
