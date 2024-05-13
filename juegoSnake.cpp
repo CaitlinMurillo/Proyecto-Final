@@ -1,18 +1,41 @@
 #include <iostream>
+#include "Windows.h"
 #include <conio.h>
 using namespace std;
 
-// Variables global
+/*
+Bugs:
+ - La comida puede aparacer donde esta el cuerpo
+ - Aveces no se ejecuta la pantalla de Game Over
+
+Implementacion de clases :
+ - Meter la "fruta" y "bonus" en una clase (comida con distintas funcionalidades)
+ - Dificultades de nivel (velocidad y modo de juego)  [Facil, Medio y Dificil]
+ - Clase serpiente
+ - Clase Juego (las dificultades serian funciones de esta clase)
+
+Futuras mejoras:
+ - Agregar un menu (Start[Elegir dificultad], Instrucciones, Creditos y Exit)
+ - Centrar el programa en la terminal
+ - Que el mensaje de Game OVer aparezca en medio del mapa
+ - Que al acabar el juego regreses al menu
+*/
+
+
+// Variables globales
 bool gameOver;
 const int height = 20; // Dimensiones del mapa
 const int width = 20;
 int x, y; // Coordenadas de la cabeza 
+int tailX[100], tailY[100]; // Array para el cuerpo de la serpiente (almacenar sus posiciones)
+int nTail; // tamano de la serpiente
 int fruitX, fruitY; // Coordenadas de la comida
+int bonusX, bonusY; // Coordenadas para la comida bonus ("+500")
 int score;
 enum eDirection {STOP = 0, LEFT, RIGHT, UP, DOWN}; // Mover la cabeza 
 eDirection dir; // Direccion de la cabeza
 
-// prototipos
+// funciones 
 void Setup() {
     gameOver = false;
     dir = STOP;
@@ -20,13 +43,21 @@ void Setup() {
     y = height / 2; // hacer que la cabeza aparezca en el medio del juego
     fruitX = rand() % width;
     fruitY = rand() % height; // crear una fruta random en x y
+
+    /*
+    bonusX = rand() % width;
+    bonusY = rand() % height; // crear bonus
+    */
+
     score = 0;
 }
 
 void Draw() {
-    system("cls"); // clear terminal window
+    //system("cls"); // clear terminal window
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0,0 }); // stopss the flickering
+    
     // dibujar espacio de juego
-    for (int i = 0; i < width+1; i++) // borde superior
+    for (int i = 0; i < width+2; i++) // borde superior
         cout << "#";
     cout << endl;
 
@@ -39,19 +70,31 @@ void Draw() {
             if (i == y && j == x) // si i (altura) y j (ancho) son iguales a las coordenadas de la "cabeza" imprimir O
                 cout << "0";
             else if (i == fruitY && j == fruitX) // imprimir la comida en las coordenadas XY
-                cout << "F";
-            else
-                cout << " ";
+                cout << "*";
+            else { // dibujar cuerpo de la serpiente 
+                bool print = false;
+                for (int k = 0; k < nTail; k++) {
+                    if (tailX[k] == j && tailY[k] == i) 
+                    {
+                        cout << "o";
+                        print = true;
+                    }
+                }
+                if (!print)
+                    cout << " "; 
+            }
             if (j == width - 1) // si esta en el borde derecho poner #
                 cout << "#";
         }
         cout << endl;
     }
 
-    for (int i = 0; i < width+1; i++) // borde inferior
+    for (int i = 0; i < width+2; i++) // borde inferior
         cout << "#";
     cout << endl;
     // fin del espacio de juego
+
+    cout << "Score: " << score << endl;
 }
 
 void Input() {
@@ -80,7 +123,23 @@ void Input() {
 }
 
 void Logic() {
-    // Una vez recibidas las entradas del teclado mover la serpiente
+    int prevX = tailX[0], prevY = tailY[0]; // Variables temporales para guardar la posicion del cuerpo de la serpiente
+    int prev2X, prev2Y;
+    tailX[0] = x;
+    tailY[0] = y;
+    
+
+    // crecer serpiente
+    for (int i = 1; i < nTail; i++) {
+        prev2X = tailX[i];
+        prev2Y = tailY[i];
+        tailX[i] = prevX;
+        tailY[i] = prevY;
+        prevX = prev2X;
+        prevY = prev2Y;
+    }
+
+    // Una vez recibidas las entradas del teclado, mover la serpiente
     switch (dir)
     {
     case LEFT:
@@ -98,7 +157,43 @@ void Logic() {
     default:
         break;
     }
+
+    // (Dificultad media, dificil) Checar si la cabeza de la serpiente choco con una pared (salirse del rango del juego)
+    if (x > width || x < 0 || y > height - 1 || y < 0) //
+        gameOver = true;
+        
+
+    // (Dificultad facil) Que la serpiente no choque contra las paredes
+    // if (x >= width) x = 0; else if (x < 0) x = width - 1;
+    //if (y >= height) y = 0; else if (y < 0) y = height - 1;
+
+
+    // Checar si la cabeza de la serpiente choco contra su cola
+    for (int i = 0; i < nTail; i++) 
+        if (tailX[i] == x && tailY[i] == y) // Si la posicion de la cabeza coincide con cualquier elemento i de la cola
+            gameOver = true;
+
+    // Operaciones cuando se come la comida
+    if (x == fruitX && y == fruitY) {
+         // aumentar tamano de la serpiente 
+        score = score + 100; // aumentar score (comida normal)
+        fruitX = rand() % width;
+        fruitY = rand() % height; // una vez que se coma la fruta colocarla en otro lugar del mapasd
+        nTail++;
+    }
 }
+
+class Juego {
+
+};
+
+class Serpiente {
+
+};
+
+class Comida {
+
+};
 
 int main() {
     Setup();
@@ -106,8 +201,12 @@ int main() {
     while (!gameOver) // mientras gameOver sea falso
     {
         Draw();
+        Sleep(70); // funcion para disminuir refresh rate de la pantalla de juego
         Input();
         Logic();
     }
+
+    if (gameOver == true)
+        cout << "Game Over...";
     return 0;
 }
