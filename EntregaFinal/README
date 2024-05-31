@@ -1,2 +1,3 @@
 Juego de la Serpiente en C++
 
+Este proyecto es una implementación del clásico juego de la serpiente en C++ con diferentes niveles de dificultad y algunas características adicionales. El juego se ejecuta en la consola de Windows y permite al usuario elegir entre tres niveles de dificultad: fácil, medio y difícil.
