@@ -176,14 +176,19 @@ public:
         default:
             break;
         }
+        // Si dir es igual a LEFT, entonces el código x-- se ejecutara, lo que disminuye el valor de x en 1.
+        // Si dir es igual a RIGHT, entonces el código x++ se ejecutara, lo que aumenta el valor de x en 1.
+        // Si dir es igual a UP, entonces el código y-- se ejecutara, lo que disminuye el valor de y en 1.
+        //  Si dir es igual a DOWN, entonces el código y++ se ejecutara, lo que aumenta el valor de y en 1.
+        // Si dir no es igual a ninguno de los valores anteriores, entonces se ejecuta el caso default, que en este caso no hace nada.
 
-        // Wrap-around logica para que no haya colisiones con los bordes del mapa para nivel facil
+        // Wrap-around logic for the edges for easy difficulty
         if (width == 10 && height == 10) { // Only for easy difficulty
             if (x >= width) x = 0; else if (x < 0) x = width - 1;
             if (y >= height) y = 0; else if (y < 0) y = height - 1;
         }
         else {
-            // aqui entran las colisiones con las paredes para la dificultad media y dificil
+            // Standard collision with walls for medium and hard difficulty
             if (x >= width || x < 0 || y >= height || y < 0)
                 gameOver = true;
         }
@@ -209,8 +214,8 @@ public:
                 Input();
             }
         }
-        DrawGameOver(); // muestra un mensaje de game over
-        Sleep(2000); // espera 2 segundo spra volver a mostrar el menú
+        DrawGameOver(); // Muestra el mensaje de juego terminado al momento de morir
+        Sleep(2000); // espera 2 segundos para inicializar despues de correr
     }
 };
 
@@ -223,7 +228,7 @@ public:
 
     void Setup() override {
         Serpiente::Setup();
-        fruitX = rand() % width;
+        fruitX = rand() % width; // muestra la manzana en un lugar random dentro de la pantalla en eje Y y X
         fruitY = rand() % height;
     }
 
@@ -267,7 +272,7 @@ public:
         if (x == fruitX && y == fruitY) {
             score += 100;
             fruitX = rand() % width;
-            fruitY = rand() % height;
+            fruitY = rand() % height; //muestra la comida en cualquier lugar con respecto al eje Y y X
             nTail++;
         }
     }
@@ -286,7 +291,7 @@ public:
         Comida::Setup();
         bonusX = rand() % width;
         bonusY = rand() % height;
-        boostX = rand() % width;
+        boostX = rand() % width; // construimos un tipo de comida especial el cual aumente la cola de la serpiente y aumente la velocidad de la serpiente
         boostY = rand() % height;
     }
 
@@ -332,14 +337,14 @@ public:
         if (x == bonusX && y == bonusY) {
             score += 500;
             bonusX = rand() % width;
-            bonusY = rand() % height;
+            bonusY = rand() % height; //tipo de comida especial que ayuda a aumentar la serpiente
             nTail++;
         }
 
         if (x == boostX && y == boostY) {
             // implementar función para ir más rápido
             boostX = rand() % width;
-            boostY = rand() % height;
+            boostY = rand() % height; //tipo de comida el cual ayuda a aumentar la velocidad de la serpiente
         }
     }
 };
@@ -376,8 +381,8 @@ public:
                 Input();
             }
         }
-        DrawGameOver(); // muestra un mensaje de game over
-        Sleep(2000); // espera 2 segundo para volver a mostrar el menú
+        DrawGameOver(); //Muestra el mensaje de juefo termiano al fianl de la pantalla
+        Sleep(2000); // espera 2 segundos despues de iniciar el menu
     }
 };
 
@@ -412,8 +417,8 @@ public:
                 Input();
             }
         }
-        DrawGameOver(); // muestra el mensaje de game over
-        Sleep(2000); // espera dos segundos para volver a mostrar el menú
+        DrawGameOver(); // Show game over message when the game ends
+        Sleep(2000); // Wait for 2 seconds before returning to menu
     }
 };
 
@@ -449,8 +454,8 @@ public:
                 Input();
             }
         }
-        DrawGameOver(); // muestra un mensaje de game over 
-        Sleep(2000); // espera 2 segundos para volver al menu
+        DrawGameOver(); // Show game over message when the game ends
+        Sleep(2000); // Wait for 2 seconds before returning to menu
     }
 };
 
