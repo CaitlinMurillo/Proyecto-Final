@@ -1,0 +1,55 @@
+﻿Manual de Usuario - Juego de la Serpiente en C++
+
+
+Ejecución del Juego:
+
+
+Requisitos Previos
+
+
+- Windows
+
+
+1. Ejecutar el archivo .exe
+
+
+2. Pantalla de selección de dificultad:
+ Al iniciar el juego, verá un menú para seleccionar la dificultad. Introduzca el número correspondiente a la dificultad deseada:
+   Seleccione la dificultad:
+   1. Facil
+   2. Medio
+   3. Dificil
+   4. Salir
+
+
+3. Seleccionar la opción:
+   Escriba el número de la opción y presione `Enter`.
+
+
+Controles del Juego:
+Movimiento de la Serpiente
+
+
+- w: Mover hacia arriba
+- a: Mover hacia la izquierda
+- s: Mover hacia abajo
+- d: Mover hacia la derecha
+
+
+Salir del Juego:
+
+
+- opcion 4:Tocar dos veces para terminar el juego y volver al menú principal
+
+
+
+
+ Objetivo del Juego:
+
+
+- Comer la fruta (*): Incrementa la puntuación en 100 puntos y la longitud de la serpiente.
+- Evitar colisiones: No chocar con las paredes (excepto en dificultad fácil) ni con el cuerpo de la serpiente.
+
+
+- Condiciones de fin del juego: El juego termina cuando la serpiente choca con una pared (en dificultades media y difícil) o con su propio cuerpo.
+- Mensaje de Game Over: Al finalizar el juego, aparecerá un mensaje de "GAME OVER". La puntuación final se mostrará en la consola.
